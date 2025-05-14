@@ -1,0 +1,275 @@
+@Metadata.layer: #CUSTOMER
+
+@UI.headerInfo: { typeName: 'Business Partner Bank Data',
+                  typeNamePlural: 'Business Partner Banks',
+                  title: { type: #STANDARD, label: 'Bank Info Change Request', value: 'reqid' } }
+
+@UI.presentationVariant: [ { sortOrder: [ { by: 'businesspartner' },
+                                          { by: 'bankid' },
+                                          { by: 'reqid', direction: #DESC } ],
+                             visualizations: [ { type: #AS_LINEITEM } ] } ]
+
+@UI.textArrangement: #TEXT_LAST
+
+annotate entity zc_bpbank
+  with
+
+{
+  @EndUserText.label: 'Business Partner'
+  @UI.facet: [ { label: 'Business Partner',
+                 id: 'idPartnInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 position: 1 },
+               { label: 'Bank Information',
+                 id: 'idBankInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 position: 10 },
+               { label: 'Old Bank Information',
+                 id: 'idOBankInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 hidden: #(NoHistory),
+                 position: 15 },
+               { label: 'Processing Status',
+                 id: 'idProcInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 position: 20 },
+               { label: 'Approval Status',
+                 id: 'idApprInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 hidden: #(NoApprovals),
+                 position: 25 },
+               { label: 'Attachment',
+                 id: 'idDocInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 hidden: #(HideAttachs),
+                 position: 30 },
+               { label: 'Attachment',
+                 id: 'idDocInfo1',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 hidden: #(NoLink),
+                 position: 35 },
+               { label: 'Correspondence',
+                 id: 'idCmtInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 hidden: #(NoComments),
+                 position: 40 },
+               { label: 'Change Log',
+                 id: 'idChgInfo',
+                 purpose: #STANDARD,
+                 type: #COLLECTION,
+                 hidden: #(NoLog),
+                 position: 900 },
+               { targetQualifier: 'fgBankInfo0', type: #FIELDGROUP_REFERENCE, parentId: 'idPartnInfo', position: 10 },
+               { targetQualifier: 'fgBankInfo1', type: #FIELDGROUP_REFERENCE, parentId: 'idBankInfo', position: 10 },
+               { targetQualifier: 'fgBankInfo2', type: #FIELDGROUP_REFERENCE, parentId: 'idOBankInfo', position: 20 },
+               { targetQualifier: 'fgBankInfo15', type: #FIELDGROUP_REFERENCE, parentId: 'idProcInfo', position: 150 },
+               { targetQualifier: 'fgBankInfo14', type: #FIELDGROUP_REFERENCE, parentId: 'idApprInfo', position: 150 },
+               { targetQualifier: 'fgBankInfo16', type: #FIELDGROUP_REFERENCE, parentId: 'idDocInfo', position: 160 },
+               { targetQualifier: 'fgBankInfo13', type: #FIELDGROUP_REFERENCE, parentId: 'idDocInfo1', position: 160 },
+               { targetQualifier: 'fgBankInfo18', type: #FIELDGROUP_REFERENCE, parentId: 'idCmtInfo', position: 170 },
+               { targetQualifier: 'fgBankInfo17', type: #FIELDGROUP_REFERENCE, parentId: 'idChgInfo', position: 1000 } ]
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo0', position: 15 } ]
+  @UI.identification: [ { importance: #HIGH,
+                          label: 'Submit',
+                          dataAction: 'submit',
+                          type: #FOR_ACTION,
+                          position: 10 },
+                        { importance: #HIGH,
+                          label: 'Approve',
+                          dataAction: 'approve1',
+                          type: #FOR_ACTION,
+                          position: 20 },
+                        { importance: #HIGH,
+                          label: 'Approve',
+                          dataAction: 'approve2',
+                          type: #FOR_ACTION,
+                          position: 30 },
+                        { importance: #HIGH,
+                          label: 'Request Change',
+                          dataAction: 'copyto',
+                          type: #FOR_ACTION,
+                          position: 40 },
+                        { importance: #HIGH,
+                          label: 'Reject',
+                          dataAction: 'reject',
+                          type: #FOR_ACTION,
+                          position: 60 },
+                        { importance: #HIGH,
+                          label: 'Add Comment',
+                          dataAction: 'comment',
+                          type: #FOR_ACTION,
+                          position: 70 } ]
+  @UI.lineItem: [ { position: 10 } ]
+  @UI.selectionField: [ { position: 10 } ]
+  businesspartner;
+
+  @EndUserText.label: 'Bank ID'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo0', position: 20 } ]
+  @UI.lineItem: [ { position: 15 } ]
+  bankid;
+
+  @EndUserText.label: 'Bank Country Key'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 10 } ]
+  @UI.lineItem: [ { position: 20 } ]
+  @UI.selectionField: [ { position: 20 } ]
+  bankcountrykey;
+
+  @EndUserText.label: 'Old Bank Country Key'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 10 } ]
+  obankcountrykey;
+
+  @EndUserText.label: 'Bank Number'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 20 } ]
+  @UI.lineItem: [ { position: 30 } ]
+  @UI.selectionField: [ { position: 30 } ]
+  banknumber;
+
+  @EndUserText.label: 'Old Bank Number'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 20 } ]
+  obanknumber;
+
+  @EndUserText.label: 'Bank Control Key'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 30 } ]
+  bankcontrolkey;
+
+  @EndUserText.label: 'Old Bank Control Key'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 30 } ]
+  obankcontrolkey;
+
+  @EndUserText.label: 'Account Holder'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 40 } ]
+  bankaccountholdername;
+
+  @EndUserText.label: 'Old Account Holder'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 40 } ]
+  obankaccountholdername;
+
+  @EndUserText.label: 'Account Name'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 50 } ]
+  bankaccountname;
+
+  @EndUserText.label: 'Old Account Name'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 50 } ]
+  obankaccountname;
+
+  @EndUserText.label: 'Validity Start'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 60 } ]
+  bankvaliditystartdate;
+
+  @EndUserText.label: 'Old Validity Start'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 60 } ]
+  obankvaliditystartdate;
+
+  @EndUserText.label: 'Validity End'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 70 } ]
+  bankvalidityenddate;
+
+  @EndUserText.label: 'Old Validity End'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 70 } ]
+  obankvalidityenddate;
+
+  @EndUserText.label: 'IBAN'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 80 } ]
+  iban;
+
+  @EndUserText.label: 'Old IBAN'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 80 } ]
+  oiban;
+
+  @EndUserText.label: 'Attachment'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo13', position: 80, type: #WITH_URL, url: 'documentlink' } ]
+  filename;
+
+  @EndUserText.label: 'Bank Account'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 90 } ]
+  bankaccount;
+
+  @EndUserText.label: 'Old Bank Account'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 90 } ]
+  obankaccount;
+
+  @EndUserText.label: 'Account Reference'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 100 } ]
+  bankaccountreferencetext;
+
+  @EndUserText.label: 'Old Account Reference'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 100 } ]
+  obankaccountreferencetext;
+
+  @EndUserText.label: 'Collection Authorization'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 110 } ]
+  collectionauthind;
+
+  @EndUserText.label: 'Old Collection Authorization'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 110 } ]
+  ocollectionauthind;
+
+  @EndUserText.label: 'External Bank ID'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo1', position: 120 } ]
+  businesspartnerexternalbankid;
+
+  @EndUserText.label: 'Old External Bank ID'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo2', position: 120 } ]
+  obusinesspartnerexternalbankid;
+
+  @EndUserText.label: 'Status'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo15', position: 10 } ]
+  @UI.lineItem: [ { position: 1000 } ]
+  @UI.selectionField: [ { position: 1000 } ]
+  @UI.textArrangement: #TEXT_ONLY
+  status;
+
+  @EndUserText.label: 'Requested By'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo14', position: 20 } ]
+  requestedby;
+
+  @EndUserText.label: 'Reviewer'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo14', position: 30 } ]
+  approval1;
+
+  @EndUserText.label: 'Approver'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo14', position: 40 } ]
+  approval2;
+
+  @EndUserText.label: 'Attachment'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo16', position: 999 } ]
+  attachment;
+
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo18', position: 999 } ]
+  @UI.multiLineText: true
+  comments;
+
+  @UI.hidden: true
+  mimetype;
+  
+  @UI.hidden: true
+  documentlink;
+
+  @EndUserText.label: 'Created At'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo17', position: 20 } ]
+  local_created_at;
+
+  @EndUserText.label: 'Created By'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo17', position: 10 } ]
+  local_created_by;
+
+  @EndUserText.label: 'Changed At'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo17', position: 40 } ]
+  @UI.lineItem: [ { position: 2000 } ]
+  local_last_changed_at;
+
+  @EndUserText.label: 'Changed By'
+  @UI.fieldGroup: [ { qualifier: 'fgBankInfo17', position: 30 } ]
+  local_last_changed_by;
+
+  @UI.hidden: true
+  last_changed_at;
+}

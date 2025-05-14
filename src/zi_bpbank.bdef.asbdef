@@ -1,0 +1,58 @@
+managed implementation in class zcl_behv_bpbank unique;
+strict ( 2 );
+
+define behavior for zi_bpbank
+lock master
+authorization master ( instance )
+with unmanaged save
+early numbering
+{
+  create { default function; }
+  update ( features : instance );
+  delete ( features : instance );
+  field ( readonly : update ) Businesspartner;
+  field ( readonly ) requestedby, approval1, approval2, status,
+  oBankCountryKey, oBankNumber, oBankControlKey, oBankAccountHolderName, oBankAccountName, obankvaliditystartdate, obankvalidityenddate,
+  oIBAN, oBankAccount, oBankAccountReferenceText, oCollectionAuthInd, oBusinessPartnerExternalBankID,
+  last_changed_at, local_created_at, local_created_by, local_last_changed_at, local_last_changed_by;
+  field ( readonly ) reqid, comments, bankid, documentlink, NoLink;
+  field ( mandatory ) bankcountrykey, banknumber, bankaccount;
+  field ( features : instance ) attachment;
+
+  action ( features : instance ) submit;
+  factory action ( features : instance ) copyto [1];
+  action ( features : instance ) approve1;
+  action ( features : instance ) approve2;
+  action ( features : instance ) reject parameter zi_bpbank_cmt;
+  action ( features : instance ) comment parameter zi_bpbank_cmt;
+
+  determination statusUpdateOnEdit on modify
+  { field BankCountryKey, BankNumber, BankControlKey, BankAccountHolderName, BankAccountName,
+    bankvaliditystartdate, bankvalidityenddate, IBAN, BankAccountReferenceText, BankAccount, CollectionAuthInd, BusinessPartnerExternalBankID; }
+
+  validation checkMandatory on save { create; update; field bankcountrykey, banknumber, bankaccount; }
+  validation dateCheck on save { create; update; field bankvaliditystartdate, bankvalidityenddate; }
+  validation ibanCheck on save { create; update; field bankcountrykey, banknumber, bankaccount, iban; }
+
+  side effects
+  {
+    field BankCountryKey affects $self;
+    field BankNumber affects $self;
+    field BankControlKey affects $self;
+    field BankAccountHolderName affects $self;
+    field BankAccountName affects $self;
+    field bankvaliditystartdate affects $self;
+    field bankvalidityenddate affects $self;
+    field IBAN affects $self;
+    field BankAccount affects $self;
+    field BankAccountReferenceText affects $self;
+    field CollectionAuthInd affects $self;
+    field BusinessPartnerExternalBankID affects $self;
+
+    action submit affects $self;
+    action approve1 affects $self;
+    action approve2 affects $self;
+    action reject affects $self;
+    action comment affects $self;
+  }
+}

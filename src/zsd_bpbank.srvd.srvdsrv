@@ -1,0 +1,9 @@
+@EndUserText.label: 'BP Bank Master Changes'
+define service Zsd_bpbank {
+  expose zc_bpbank;
+  expose I_BusinessPartner;
+  expose zI_BPBank_Req_Status;
+  expose zI_User;
+  expose I_BankVH;
+  expose I_CountryVH;
+}

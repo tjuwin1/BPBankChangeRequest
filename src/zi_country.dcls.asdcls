@@ -1,0 +1,14 @@
+@EndUserText.label: 'BP Bank Requests'
+@MappingRole: true
+define role ZI_COUNTRY {
+  grant 
+    select
+      on
+        zi_country
+          where
+            ( Country )=
+     aspect pfcg_auth (  F_BNKA_MAO,
+                         BBANKS,
+                        actvt = '03' );
+            
+}

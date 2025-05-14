@@ -1,0 +1,6 @@
+abstract;
+
+define behavior for zi_bpbank_cmt
+{
+  field ( mandatory ) corresp;
+}

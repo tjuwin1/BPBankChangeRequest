@@ -1,0 +1,11 @@
+@EndUserText.label: 'BP Bank Requests'
+@MappingRole: true
+define role zC_BPBank {
+  grant
+    select
+      on
+        zC_BPBank
+          where
+            inheriting conditions from entity zi_bpbank;
+            
+}
